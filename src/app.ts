@@ -3,8 +3,7 @@ import express, {
   type Request,
   type Response,
 } from "express";
-import config from "./config";
-import { initDB, pool } from "./db";
+import { pool } from "./db";
 
 const app: Application = express();
 
@@ -12,8 +11,8 @@ const app: Application = express();
 app.use(express.json());
 
 
-app.get("/", (req: Request, res: Response) => {
-  res.status(200).json({ message: "Hello, World!" });
+app.get("/", async(req: Request, res: Response) => {
+    return res.status(200).json({ message: "Hello, World!" });
 });
 
 // api to create a new user
@@ -29,11 +28,11 @@ app.post("/api/users", async (req: Request, res: Response) => {
       [name, email, password, age],
     );
     console.log(result);
-    res
+    return res
       .status(200)
       .json({ message: "Data received successfully", data: result.rows[0] });
   } catch (error: any) {
-   res
+   return res
       .status(500)
       .json({ message: error.message, data: error });
   }
@@ -46,9 +45,9 @@ app.get ('/api/users', async (req: Request, res: Response) => {
         const result = await pool.query(`
             SELECT * FROM users
             `);
-            res.status(200).json({ message: "DATA fetched successfully", data: result.rows })
+            return res.status(200).json({ message: "DATA fetched successfully", data: result.rows })
        }catch(error: any){
-        res.status(500).json({ message: error.message, data: error})
+        return res.status(500).json({ message: error.message, data: error})
        }
 })
 
@@ -58,18 +57,18 @@ app.get ('/api/users/:id', async (req: Request, res: Response) => {
     const { id } = req.params;
 
     try {
-        const result = pool.query(`
+        const result = await pool.query(`
                SELECT * FROM users WHERE id = $1
             `, [id]);
 
 
             if((await result).rows.length === 0){
-                res.status(500).json({ message: "NO data found", data: []})
+                return res.status(500).json({ message: "NO data found", data: []})
             }
 
-            res.status(200).json({ message: "Data fetched successfully", data: (await result).rows[0]})
+            return res.status(200).json({ message: "Data fetched successfully", data: (await result).rows[0]})
     }catch (error: any) {
-        res.status(500).json({ message: error.message, data: error})
+        return res.status(500).json({ message: error.message, data: error})
     }
 });
 
@@ -85,11 +84,11 @@ app.put('/api/users/:id', async(req: Request, res: Response) => {
             UPDATE users SET name = COALESCE($1, name), password = COALESCE($2, password), age = COALESCE($3, age), updated_at = NOW() WHERE id = $4 RETURNING *
             `, [name,password, age, id])
             if(result.rowCount === 0){
-                res.status(404).json({ message: "NO data found", data: []})
+                return res.status(404).json({ message: "NO data found", data: []})
             }
-            res.status(200).json({ message: "Data updated successfully", data : result.rows[0]})
+            return res.status(200).json({ message: "Data updated successfully", data : result.rows[0]})
     } catch (error: any) {
-        res.status(500).json({ message: error.message, data: error} )
+        return res.status(500).json({ message: error.message, data: error} )
     }
 });
 
@@ -104,13 +103,13 @@ app.delete('/api/users/:id', async(req: Request, res: Response) => {
             `, [id])
 
             if((await result).rowCount === 0) {
-                res.status(404).json({ message: "No Data found", data: []})
+                return res.status(404).json({ message: "No Data found", data: []})
             }
 
-            res.status(200).json({ message: "Data deleted successfully", data: []})
+            return res.status(200).json({ message: "Data deleted successfully", data: []})
 
     }catch (error: any){
-        res.status(500).json({ message: error.message, data: error})
+        return res.status(500).json({ message: error.message, data: error})
     }
 } )
 
