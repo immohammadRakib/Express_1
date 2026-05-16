@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   web-app:
     build: .
@@ -11,3 +9,23 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - DATABASE_URL=postgresql://myuser:mypassword@db-postgres:5432/mydb 
+    depends_on:
+      - db-postgres 
+
+#postgesql 
+  db-postgres:
+    image: postgres:16-alpine 
+    container_name: postgres-db-container
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=myuser      
+      - POSTGRES_PASSWORD=mypassword 
+      - POSTGRES_DB=mydb           
+    volumes:
+      - pgdata:/var/lib/postgresql/data 
+
+
+volumes:
+  pgdata:
