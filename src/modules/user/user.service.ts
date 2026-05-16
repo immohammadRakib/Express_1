@@ -22,8 +22,17 @@ const getAllUsersDB = async () => {
        return result;
 }
 
+const getUserByIdDB = async (id: string) => {
+    const result = await pool.query(`
+               SELECT * FROM users WHERE id = $1
+            `, [id]);
+    return result;
+}
+
+
 
 export const userService = {
     userIntoDB,
     getAllUsersDB,
+    getUserByIdDB,
 }
