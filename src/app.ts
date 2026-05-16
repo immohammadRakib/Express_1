@@ -24,16 +24,7 @@ app.get("/", async(req: Request, res: Response) => {
 
 // api to get all users
 
-app.get ('/api/users', async (req: Request, res: Response) => {
-       try {
-        const result = await pool.query(`
-            SELECT * FROM users
-            `);
-            return res.status(200).json({ message: "DATA fetched successfully", data: result.rows })
-       }catch(error: any){
-        return res.status(500).json({ message: error.message, data: error})
-       }
-})
+
 
 // api to get a user by id
 

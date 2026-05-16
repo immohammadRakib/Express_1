@@ -15,6 +15,15 @@ const userIntoDB = async (payload: Iuser) => {
 };
 
 
-export const userService ={
+const getAllUsersDB = async () => {
+       const result = await pool.query(`
+            SELECT * FROM users
+            `);
+       return result;
+}
+
+
+export const userService = {
     userIntoDB,
+    getAllUsersDB,
 }
