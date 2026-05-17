@@ -1,0 +1,44 @@
+
+ Method: POST 
+ URL: /api/auth/login 
+ Time: 1779031244355 
+
+ Method: GET 
+ URL: /api/users 
+ Time: 1779031835256 
+
+ Method: GET 
+ URL: /api/users 
+ Time: 1779032173308 
+
+ Method: POST 
+ URL: /api/users 
+ Time: 1779032221444 
+
+ Method: POST 
+ URL: /api/auth/login 
+ Time: 1779032257900 
+
+ Method: POST 
+ URL: /api/users/1 
+ Time: 1779032292276 
+
+ Method: POST 
+ URL: /api/users 
+ Time: 1779032297407 
+
+ Method: GET 
+ URL: /api/users 
+ Time: 1779032306821 
+
+ Method: GET 
+ URL: /api/users/1 
+ Time: 1779032313433 
+
+ Method: GET 
+ URL: /api/users 
+ Time: 1779032321692 
+
+ Method: GET 
+ URL: /api/users 
+ Time: 1779032387702 
