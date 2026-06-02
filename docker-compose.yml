@@ -2,8 +2,8 @@ services:
   web-app:
     build: .
     container_name: express-compose-app
-    ports:
-      - "5000:5000"
+    expose:
+      - "5000"
     volumes:
       - .:/app
       - /app/node_modules
@@ -12,6 +12,7 @@ services:
       - DATABASE_URL=postgresql://myuser:mypassword@db-postgres:5432/mydb 
     depends_on:
       - db-postgres 
+      - redis-cache
 
 #postgesql 
   db-postgres:
@@ -38,6 +39,15 @@ services:
     depends_on:
       - web-app 
     restart: always
+
+  # Redis Service
+  redis-cache:
+    image: redis:7-alpine
+    container_name: redis-cache-container
+    ports:
+      - "6379:6379" 
+    restart: always
+
 
 
 volumes:
