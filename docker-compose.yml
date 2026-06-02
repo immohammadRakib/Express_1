@@ -1,7 +1,6 @@
 services:
-  web-app-1:
+  express-compose-app:
     build: .
-    container_name: express-compose-app-1
     expose:
       - "5000"
     volumes:
@@ -10,37 +9,7 @@ services:
     environment:
       - NODE_ENV=development
       - DATABASE_URL=postgresql://myuser:mypassword@db-postgres:5432/mydb
-      - SERVER_NAME=Server-One 
-    depends_on:
-      - db-postgres 
-      - redis-cache
-  web-app-2:
-    build: .
-    container_name: express-compose-app-2
-    expose:
-      - "5000"
-    volumes:
-      - .:/app
-      - /app/node_modules
-    environment:
-      - NODE_ENV=development
-      - DATABASE_URL=postgresql://myuser:mypassword@db-postgres:5432/mydb
-      - SERVER_NAME=Server-Two
-    depends_on:
-      - db-postgres 
-      - redis-cache
-  web-app-3:
-    build: .
-    container_name: express-compose-app-3
-    expose:
-      - "5000"
-    volumes:
-      - .:/app
-      - /app/node_modules
-    environment:
-      - NODE_ENV=development
-      - DATABASE_URL=postgresql://myuser:mypassword@db-postgres:5432/mydb
-      - SERVER_NAME=Server-Three
+      - SERVER_NAME=express-compose-app
     depends_on:
       - db-postgres 
       - redis-cache
@@ -66,12 +35,10 @@ services:
     ports:
       - "80:80" 
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro 
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro 
       - ./nginx/error503.html:/usr/share/nginx/html/error503.html:ro
     depends_on:
-      - web-app-1 
-      - web-app-2 
-      - web-app-3 
+      - express-compose-app
     restart: always
 
   # Redis Service
