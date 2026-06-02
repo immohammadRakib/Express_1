@@ -1,23 +1,29 @@
-# 1. Node Image
-FROM node:20-alpine
-
-# 2. App Folder
+# === STAGE 1: Build Stage ===
+FROM node:20-alpine AS builder
 WORKDIR /app
 
-# 3. Copy package files
 COPY package*.json ./
-
-# 4. Dependencies install kora
+# Install all dependencies including devDependencies for compilation
 RUN npm install
 
-# 5. [IMPORTANT] tsx tool-ti global vabe install kora
-RUN npm install -g tsx
-
-# 6. Project files copy kora
 COPY . .
+# Compile TypeScript to JavaScript (generates the 'dist' or 'build' folder)
+RUN npm run build 
 
-# 7. Port expose
+
+# === STAGE 2: Production Stage ===
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+
+COPY package*.json ./
+# Install production-only dependencies (ignores devDependencies)
+RUN npm install --only=production
+
+# Copy only the compiled JavaScript files from the builder stage
+COPY --from=builder /app/dist ./dist
+
 EXPOSE 5000
 
-# 8. Start command (tsx diye server chalu hobe)
-CMD ["tsx", "src/server.ts"]
+# Run the fast, native JavaScript file instead of TypeScript
+CMD ["node", "dist/server.js"]
