@@ -27,5 +27,18 @@ services:
       - pgdata:/var/lib/postgresql/data 
 
 
+# Nginx Service 
+  nginx-proxy:
+    image: nginx:alpine
+    container_name: nginx-proxy-container
+    ports:
+      - "80:80" 
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro 
+    depends_on:
+      - web-app 
+    restart: always
+
+
 volumes:
   pgdata:
