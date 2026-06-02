@@ -234,3 +234,31 @@
  Method: GET 
  URL: /api/users 
  Time: 1780394229654 
+
+ Method: GET 
+ URL: /api/users 
+ Time: 1780395095796 
+
+ Method: GET 
+ URL: /api/users 
+ Time: 1780395100895 
+
+ Method: GET 
+ URL: / 
+ Time: 1780395210882 
+
+ Method: GET 
+ URL: / 
+ Time: 1780395214032 
+
+ Method: GET 
+ URL: / 
+ Time: 1780395215856 
+
+ Method: GET 
+ URL: / 
+ Time: 1780395217036 
+
+ Method: GET 
+ URL: / 
+ Time: 1780395243409 

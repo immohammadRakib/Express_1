@@ -25,7 +25,9 @@ app.use('/api/auth', authRoute);
 
 
 app.get("/", async(req: Request, res: Response) => {
-    return res.status(200).json({ message: "Hello, World!" });
+    return res.status(200).json({ message: "Hello, World!", 
+      served_by: process.env.SERVER_NAME || "Unknown Server"
+     });
 });
 
 
