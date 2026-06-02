@@ -36,6 +36,7 @@ services:
       - "80:80" 
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro 
+      - ./nginx/error503.html:/usr/share/nginx/html/error503.html:ro
     depends_on:
       - web-app 
     restart: always
